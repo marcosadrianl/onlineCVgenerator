@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+Mi CV en HTML
+versión 1.5.30082024
+Diseñado por Marcos Lucas
+github: https://github.com/marcosadrianl
+Visita el repositorio en github para ver el código fuente 
+Puedes usar este documento de manera libre, solo no olvides saludarme!
+-->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="userTitle">Online CV Generator</title>
+    <link rel="stylesheet" href="output.css" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+</head>
+<body id="userBody" class="font-serif">
+    <nav class="menu-flotante ocultar-al-imprimir" id="menuFlotante">
+        
+            <div id="rootEditor" class="flex flex-col mx-auto items-center"></div>
+        
+        <div class="hover:opacity-70 toggle-btn ocultar-al-imprimir text-xl" id="closeMenu" onclick="callMenu(id)">
+            ☰
+        </div>
+    </nav>
+    <header id="userHeaderContainer">
+        <main id="userMain">
+            <div class="header-conteiner" id="userHeader">
+                <div class="flex flex-row w-[80%] justify-between" id="userTitleHeader">
+                    <!--NOMBRE Y REDES SOCIALES-->
+                    <div class="w-[60%]" id="userTitleContent">
+                        <div>
+                            <p id="userName" onclick="callMenu(id)" class="text-3xl font-bold hover:cursor-pointer hover:bg-slate-200 rounded-md">
+                                Nombre y Apellido
+                            </p>
+                            <p class="mb-1 hover:cursor-pointer hover:bg-slate-200 rounded-md pt-1" id="userDescription" onclick="callMenu(id)" >
+                                Escribe una breve presentación sobre ti, incluye tus metas y logros si lo deseas, añade tus gustos o hobbies. Tienes 400 caracteres para ser creativo (no te preocupes, es suficiente).
+                            </p>
+                            <p id="userLocation" onclick="callMenu(id)" class="mb-1 hover:cursor-pointer hover:bg-slate-200 rounded-md pt-1">
+                                &bull; Ingresa tu ubicación aquí
+                            </p>
+                            <p id="userContact" onclick="callMenu(id)" class="hover:cursor-pointer hover:bg-slate-200 rounded-md pt-1">
+                                &bull; Teléfono / Correo
+                            </p>
+                        </div>
+                    </div>
+                    <!--IMAGEN DE PERFIL-->
+                    <div id="userImageContainer" class="hover:opacity-50 hover:cursor-pointer border-slate-300 rounded-md mt-4">
+                        <img id="userImage" src="https://t3.ftcdn.net/jpg/05/17/87/74/240_F_517877468_8dx0lFR66R6LIgCOUYJWxun1b3Muv272.webp" alt="Sin imagen de perfil" class="relative w-[120px] h-[120px] rounded-xl border-dotted" loading="lazy" onclick="callMenu(id)">
+                    </div>
+                </div>                
+            </div>
+            <hr class="w-[80%] mx-auto">
+        </main>
+    </header>
+<section id="userSection" >
+    <!--SECCIONES-->
+    <div class="flex flex-col items-center w-[80%] mx-auto text-slate-200 cursor-pointer hover:text-[#bfbfbf]" onclick="createNewSection()">
+        <div class="ocultar-al-imprimir">
+            <p>Nueva Sección</p>
+        </div>
+    </div>
+</section>
+
+<br>
+<footer id="userFooter" class="fixed bottom-0 w-full text-center bg-white">
+    <p class="ocultar-al-imprimir"><small>online CV generator by Marcos Adrian Lucas</small></p>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>
