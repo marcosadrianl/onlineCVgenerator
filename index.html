@@ -18,55 +18,54 @@ Puedes usar este documento de manera libre, solo no olvides saludarme!
 <body id="userBody" class="font-serif">
     <nav class="menu-flotante ocultar-al-imprimir" id="menuFlotante">
         
-            <div id="rootEditor" class="flex flex-col mx-auto items-center"></div>
+            <div id="rootEditor" class="flex flex-col md:mx-auto items-left md:items-center w-[90%]"></div>
         
-        <div class="hover:opacity-70 toggle-btn ocultar-al-imprimir text-xl" id="closeMenu" onclick="callMenu(id)">
+        <div class="hover:opacity-70 toggle-btn ocultar-al-imprimir text-3xl md:text-xl" id="closeMenu" onclick="callMenu(id)">
             ☰
         </div>
     </nav>
     <header id="userHeaderContainer">
         <main id="userMain">
-            <div class="header-conteiner" id="userHeader">
+            <div class="flex flex-row items-center justify-center" id="userHeader">
                 <div class="flex flex-row w-[80%] justify-between" id="userTitleHeader">
                     <!--NOMBRE Y REDES SOCIALES-->
-                    <div class="w-[60%]" id="userTitleContent">
+                    <div class="w-[60%] md:w-[80%] mt-4" id="userTitleContent">
                         <div>
-                            <p id="userName" onclick="callMenu(id)" class="text-3xl font-bold hover:cursor-pointer hover:bg-slate-200 rounded-md">
+                            <p id="userName" onclick="callMenu(id)" class="text-xl md:text-3xl font-bold hover:cursor-pointer hover:bg-slate-200 rounded-md">
                                 Nombre y Apellido
                             </p>
-                            <p class="mb-1 hover:cursor-pointer hover:bg-slate-200 rounded-md pt-1" id="userDescription" onclick="callMenu(id)" >
+                            <p class="text-sm md:text-base text-left mb-1 hover:cursor-pointer hover:bg-slate-200 rounded-md pt-1" id="userDescription" onclick="callMenu(id)" >
                                 Escribe una breve presentación sobre ti, incluye tus metas y logros si lo deseas, añade tus gustos o hobbies. Tienes 400 caracteres para ser creativo (no te preocupes, es suficiente).
                             </p>
-                            <p id="userLocation" onclick="callMenu(id)" class="mb-1 hover:cursor-pointer hover:bg-slate-200 rounded-md pt-1">
+                            <p id="userLocation" onclick="callMenu(id)" class="text-sm md:text-base mb-1 hover:cursor-pointer hover:bg-slate-200 rounded-md pt-1">
                                 &bull; Ingresa tu ubicación aquí
                             </p>
-                            <p id="userContact" onclick="callMenu(id)" class="hover:cursor-pointer hover:bg-slate-200 rounded-md pt-1">
+                            <p id="userContact" onclick="callMenu(id)" class="text-sm md:text-base hover:cursor-pointer hover:bg-slate-200 rounded-md pt-1">
                                 &bull; Teléfono / Correo
                             </p>
                         </div>
                     </div>
                     <!--IMAGEN DE PERFIL-->
                     <div id="userImageContainer" class="hover:opacity-50 hover:cursor-pointer border-slate-300 rounded-md mt-4">
-                        <img id="userImage" src="https://t3.ftcdn.net/jpg/05/17/87/74/240_F_517877468_8dx0lFR66R6LIgCOUYJWxun1b3Muv272.webp" alt="Sin imagen de perfil" class="relative w-[120px] h-[120px] rounded-xl border-dotted" loading="lazy" onclick="callMenu(id)">
+                        <img id="userImage" src="https://t3.ftcdn.net/jpg/05/17/87/74/240_F_517877468_8dx0lFR66R6LIgCOUYJWxun1b3Muv272.webp" alt="Sin imagen de perfil" class="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-xl border-dotted" loading="lazy" onclick="callMenu(id)">
                     </div>
                 </div>                
             </div>
             <hr class="w-[80%] mx-auto">
         </main>
     </header>
-<section id="userSection" >
-    <!--SECCIONES-->
-    <div class="flex flex-col items-center w-[80%] mx-auto text-slate-200 cursor-pointer hover:text-[#bfbfbf]" onclick="createNewSection()">
-        <div class="ocultar-al-imprimir">
-            <p>Nueva Sección</p>
+    <section id="userSection" >
+        <!--SECCIONES-->
+        <div class="flex flex-col items-center w-[80%] mx-auto text-slate-300 md:text-slate-200 cursor-pointer hover:text-[#bfbfbf]" onclick="createNewSection()">
+            <div class="ocultar-al-imprimir">
+                <p class="text-sm md:text-base">Nueva Sección</p>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 <br>
 <footer id="userFooter" class="fixed bottom-0 w-full text-center bg-white">
-    <p class="ocultar-al-imprimir"><small>online CV generator by <a href="https://github.com/marcosadrianl/onlineCVgenerator" target="_blank">Marcos Adrian Lucas</a></small></p>
-</footer>
+    <p class="ocultar-al-imprimir"><small>online CV generator by <a href="https://marcosadrianl.github.io/onlineCVgenerator/" target="_blank">Marcos Adrian Lucas</a></small></p></footer>
 <script src="main.js"></script>
 </body>
 </html>

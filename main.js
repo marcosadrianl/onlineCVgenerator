@@ -67,7 +67,7 @@ function NameModifierMenu() {
 
     rootDiv.innerHTML = "";
     let newTitleStyle = "text-xl text-left"
-    let newInputStyle = "text-black w-[50vw] h-[30px] px-2"
+    let newInputStyle = "text-black md:w-[50vw] h-[40px] px-2"
     let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
     let newDivStyle = "flex flex-col"
     // Verificar si los elementos ya existen
@@ -108,8 +108,8 @@ function NameModifierMenu() {
 function DescriptionModifierMenu(){
     rootDiv.innerHTML = "";
     let newTitleStyle = "text-xl text-left"
-    let newInputStyle = "text-black h-[80px] w-[50vw] resize-none px-2"
-    let newButtonStyle = "text-center p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
+    let newInputStyle = "text-black md:w-[50vw] h-[120px] md:h-[40px] px-2"
+    let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
     let newDivStyle = "flex flex-col"
 
 
@@ -149,8 +149,8 @@ function LocationModifierMenu() {
     
     rootDiv.innerHTML = "";
     let newTitleStyle = "text-xl text-left"
-    let newInputStyle = "text-black w-[50vw] h-[30px] px-2"
-    let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer text-center"
+    let newInputStyle = "text-black md:w-[50vw] h-[40px] px-2"
+    let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
     let newDivStyle = "flex flex-col"
     // Verificar si los elementos ya existen
     if (!document.getElementById("inputLocation")) {
@@ -187,8 +187,8 @@ function LocationModifierMenu() {
 function ContactModifierMenu() {
     rootDiv.innerHTML = "";
     let newTitleStyle = "text-xl text-left"
-    let newInputStyle = "text-black w-[50vw] h-[30px] px-2"
-    let newButtonStyle = "w-[50vw] p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer text-center"
+    let newInputStyle = "text-black md:w-[50vw] h-[40px] px-2"
+    let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
     let newDivStyle = "flex flex-col"
 
     // Verificar si los elementos ya existen
@@ -251,9 +251,9 @@ function userImageModify(noImageSelected) {
 function imageModifierMenu() {
 
     rootDiv.innerHTML = `
-    <div class="flex flex-col w-[50vw]">
+    <div class="flex flex-col md:w-[50vw]">
         <p class="text-xl text-left">Editar imagen de perfil</p>
-        <span class="flex flex-row justify-between">
+        <span class="flex flex-col md:flex-row justify-between">
             <input id="inputImage" type="file" accept="image/png, image/jpeg">
             <button id="noImage" class="p-1 mt-2 bg-red-700 hover:bg-red-500 text-white rounded-sm cursor-pointer" onclick="userImageModify(true)">Sin imagen</button>
         </span>
@@ -279,16 +279,12 @@ function imageModifierMenu() {
     let roundedBorder = document.getElementById("roundedBorder");
     let circularBorder = document.getElementById("circularBorder");
 
-    
-
     squareBorder.onclick = () => {
         userImageMod.style.borderRadius = "0";
     }
-
     roundedBorder.onclick = () => {
         userImageMod.style.borderRadius = "12px";
     }
-
     circularBorder.onclick = () => {
         userImageMod.style.borderRadius = "50%";
     }
@@ -299,8 +295,7 @@ function imageModifierMenu() {
 
 function studiesModifierMenu(studieID, periodID, courseID){
    //modal de modificacion de seccion
-   rootDiv.innerHTML = "";
-   
+   rootDiv.innerHTML = "";  
 
    userStudiesMod = document.getElementById(studieID);
    userStudiesYearMod = document.getElementById(periodID); //revisar no funciona
@@ -328,9 +323,7 @@ function studiesModifierMenu(studieID, periodID, courseID){
         titleInput.maxLength = 80;
         titleInput.onclick = () => titleInput.select()
         titleInput.value = userStudiesMod.innerText;
-        titleInput.classList = newInputStyle
-
-        
+        titleInput.classList = newInputStyle     
         titleButton.innerText = "Aplicar";
         titleButton.onclick = () => {
             userStudiesMod.innerText = titleInput.value;
@@ -427,19 +420,19 @@ function createNewSection() {
     // Crear la estructura HTML
     let sectionContainer = `
      <br>
-    <div class="section-container">
+    <div class="flex flex-col items-center">
         <div class="w-[80%]" id="${studieID}-S">
-            <span class="flex flex-row justify-between">
-                <p class="text-2xl font-bold cursor-pointer hover:bg-slate-200 rounded-md" id="${studieID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">Nueva Sección (id = ${globalIdentifier})</p>
-                <span class="flex flex-row justify-evenly">
-                    <p class="p-1 mt-2 hover:text-green-500 text-gray-200 rounded-sm cursor-pointer ocultar-al-imprimir" onclick="addNewPeriod(${studieID})">Aniadir Periodo</p>
+            <span class="flex flex-col md:flex-row justify-left md:justify-between">
+                <p class="text-xl md:text-2xl font-bold cursor-pointer hover:bg-slate-200 rounded-md" id="${studieID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">Nueva Sección (${globalIdentifier})</p>
+                <span class="flex flex-row md:justify-evenly">
+                    <p class="p-1 mt-2 hover:text-green-500 text-gray-200 rounded-sm cursor-pointer ocultar-al-imprimir" onclick="addNewPeriod(${studieID})">Añadir Período</p>
                     <p class="p-1 mt-2 hover:text-red-500 text-gray-200 rounded-sm cursor-pointer ocultar-al-imprimir" onclick="removeSection('${studieID}-S')">Eliminar Sección</p>
                 </span>
             </span>
             <hr>
             <div class="flex flex-col" id="userStudiesContainer">
-                <p class="font-semibold cursor-pointer hover:bg-slate-200 rounded-md" id="${periodID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">Periodo (id = ${globalIdentifier})</p>
-                <p class="cursor-pointer hover:bg-slate-200 rounded-md" id="${courseID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">
+                <p class="text-sm md:text-base font-semibold cursor-pointer hover:bg-slate-200 rounded-md" id="${periodID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">Período (${globalIdentifier})</p>
+                <p class="text-sm md:text-base cursor-pointer hover:bg-slate-200 rounded-md" id="${courseID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">
                     Detalla claramente el contenido de la sección, incluye información relevante y usa palabras claves para comunicar tu mensaje.
                 </p>
             </div>
@@ -469,8 +462,8 @@ function addNewPeriod(studieID, periodID) {
     
     // Crear el nuevo periodo y curso
     let newPeriodHTML = `
-        <p class="font-semibold cursor-pointer hover:bg-slate-200 rounded-md" id="${newPeriodID}" onclick="callMenu('Studies', ${studieID}, ${newPeriodID}, ${newCourseID})">Nuevo Periodo (id = ${globalIdentifier})</p>
-        <p class="cursor-pointer hover:bg-slate-200 rounded-md" id="${newCourseID}" onclick="callMenu('Studies', ${studieID}, ${newPeriodID}, ${newCourseID})">
+        <p class="text-sm md:text-base font-semibold cursor-pointer hover:bg-slate-200 rounded-md" id="${newPeriodID}" onclick="callMenu('Studies', ${studieID}, ${newPeriodID}, ${newCourseID})">Nuevo Período (${globalIdentifier})</p>
+        <p class="text-sm md:text-base cursor-pointer hover:bg-slate-200 rounded-md" id="${newCourseID}" onclick="callMenu('Studies', ${studieID}, ${newPeriodID}, ${newCourseID})">
             Aquí puedes describir el nuevo período en detalle, añadiendo toda la información relevante.
         </p>
     `;
