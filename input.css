@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------IMPRIMIR------------------------------------------ */
+
+@media print {
+    .mostrar-al-imprimir {
+      display: block !important;
+    }
+  
+    .ocultar-al-imprimir {
+      display: none !important;
+    }
+  
+    .nav-header {
+      height: 0px;
+    }
+  
+    .title-header {
+      width: 100%;
+    }
+  
+    .title-section {
+      width: 100%;
+    }
+  }
+  
+  /* Hide elements with 'mostrar-al-imprimir' class on screen */
+  
+  .mostrar-al-imprimir {
+    display: none;
+  }
+  
+  /* ------------------------------------------NAV------------------------------------------ */
+  
+  /* Estilo básico para el menú flotante */
+  
+  .menu-flotante {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40%;
+    background-color: #333;
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000;
+  }
+  
+  .menu-flotante.visible {
+    transform: translateX(0);
+  }
+  
+  .menu-flotante a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin: 10px 0;
+  }
+  
+  .menu-flotante-vertical {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000;
+  }
+  
+  .menu-flotante-vertical.visible {
+    transform: translateY(0);
+  }
+  
+  
+  
+  .toggle-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+  }
+
+  .toggle-btn-2 {
+    position: absolute;
+    right: -20px;
+    top: 0px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+
+  .menu-flotante-vertical-2 {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .menu-flotante-vertical-2.visible {
+    transform: translateY(0);
+  }
+  
+
+  /* ------------------------------------------RESPONSIVE------------------------------------------ */
+  
+  @media (max-width: 720px){
+    .menu-flotante-vertical {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #333;
+      color: white;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      padding: 10px;
+      text-align: center;
+      z-index: 1000;
+    }
+  }
+  
+  @media (max-width: 450px){
+    a {
+      text-decoration: underline;
+    }
+  
+    .title-header {
+      width: 95%;
+      font-size: 0.7rem;
+    }
+  
+    .img-icon {
+      /* Esto es para que las imagenes de los iconos tengan el mismo tamaño */
+      width: 5vw;
+      height: 5vw;
+    }
+  
+    .title-section {
+      width: 95%;
+    }
+  
+    .seccion-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+    }
+  
+    .seccion-a {
+      width: 100%;
+    }
+  
+    .seccion-b {
+      width: 100%;
+      margin: 0px 0 10px 0;
+    }
+  
+    .special-font {
+      /* Esto es para que el texto sea más grande y en negrita */
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  
+    .nav-header {
+      width: 100%;
+      font-size: 0.75rem;
+      margin-bottom: 10px;
+    }
+  }

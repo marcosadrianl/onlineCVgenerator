@@ -2,6 +2,7 @@
 const menuMod = document.getElementById("menuFlotante");
 const closeMenuMod = document.getElementById("closeMenu")
 const rootDiv = document.getElementById("rootEditor");
+const menuDiv = document.getElementById("rootMenu");
 const userNameMod = document.getElementById("userName");
 const userDescriptionMod = document.getElementById("userDescription")
 const userLocaltionMod = document.getElementById("userLocation")
@@ -11,40 +12,59 @@ let userStudiesMod;
 let userStudiesYearMod;
 let userStudiesCourseMod;
 const menu = document.getElementById('menuFlotante');
+const menu2 = document.getElementById('menuFlotanteVertical');
 
 /*callMenu llama a los distintos menues respectivos segun se le pasa el id de cada seccion */
 function callMenu(id, studieID, periodID, courseID) {
-    menu.classList.add('visible');
 
     switch (id){
         case "userName":
+            menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
+            menu.classList.add('visible');
             styleMenuModifier(false);
             NameModifierMenu();
             break;
         case "userDescription":
+            menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
+            menu.classList.add('visible');
             styleMenuModifier(false);
             DescriptionModifierMenu();
             break;
         case "userLocation":
+            menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
+            menu.classList.add('visible');
             styleMenuModifier(false);
             LocationModifierMenu();
             break;
         case "userContact":
+            menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
+            menu.classList.add('visible');
             styleMenuModifier(false);
             ContactModifierMenu();
             break;
         case "userImage":
+            menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
+            menu.classList.add('visible');
             styleMenuModifier(false);
             imageModifierMenu();
             break;
         case "Studies":
+            menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
+            menu.classList.add('visible');
             styleMenuModifier(true);
             studiesModifierMenu(studieID, periodID, courseID);
             break;
         case "closeMenu":
             menu.classList.remove('visible');
             break;
-
+        case "closeMenu2":
+            if (menu2.classList.contains('visible')){
+                menu2.classList.remove('visible'); 
+            } else {
+                menu2.classList.add('visible');
+            }
+            exportMenu()
+            break;
     }
 }
 /*************************************************************************************************************************************************** */
@@ -58,6 +78,79 @@ function styleMenuModifier(doIt){
         menuMod.classList.remove("menu-flotante-vertical")
         menuMod.classList.add("menu-flotante")
     }
+}
+
+
+
+/*Funciones de menu exportacion*/
+function exportMenu(){
+    let newButtonStyle = "p-1 mt-2 w-[100%] bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
+
+    menu.classList.contains('visible') ? menu.classList.remove('visible') : "";
+
+    if (!document.getElementById("exportButton")){
+        let exportButton = document.createElement("button");
+        let importButton = document.createElement("button");
+        let printButton = document.createElement("button");
+
+        importButton.innerText = "Importar CV";
+        importButton.id = "importButton";
+        importButton.classList = newButtonStyle;
+        importButton.onclick = () => documentOptions("import");
+        importButton.disabled = true;
+        importButton.style.cursor = "not-allowed"
+        importButton.title = "No disponible mientras resolvemos un error"
+
+        exportButton.innerText = "Exportar CV";
+        exportButton.id = "exportButton";
+        exportButton.classList = newButtonStyle;
+        exportButton.onclick = () => documentOptions("export");
+        
+        printButton.innerText = "Imprimir";
+        printButton.id = "printButton";
+        printButton.classList = newButtonStyle;
+        printButton.onclick = () => window.print();
+        
+        menuDiv.appendChild(importButton);
+        menuDiv.appendChild(exportButton);
+        menuDiv.appendChild(printButton);
+    }
+}
+
+function documentOptions(type){
+    let newHtml = document.documentElement.outerHTML;
+
+    if (type == "export"){
+        let newFile = new Blob([newHtml], {type: "text/html"});
+        let url = window.URL.createObjectURL(newFile);
+        let enlaceDescarga = document.createElement('a');
+        enlaceDescarga.href = url;
+        enlaceDescarga.download = `${document.title}.CVG`;
+        enlaceDescarga.click();
+        window.URL.revokeObjectURL(url);
+    }
+
+    if (type == "import"){
+        let inputArchivo = document.createElement('input');
+        inputArchivo.type = 'file';
+        inputArchivo.accept = '.CVG';
+        inputArchivo.onchange = function(evento) {
+            let archivo = evento.target.files[0];
+            let lector = new FileReader();
+            lector.onload = function(e) {
+                let userAgreed = confirm("Desea aplicar los cambios?");
+                if (userAgreed == true){
+                        setTimeout(() => {
+                            document.body.innerHTML = e.target.result;
+                        }, 2500);
+                    };
+            };
+            lector.readAsText(archivo);
+        };
+        inputArchivo.click();
+    }
+    
+
 }
 
 /*Estas funciones son las que generan elementos html, y le pasan el valor ingresado por el usuario a las <variable>Modify() 
@@ -108,7 +201,7 @@ function NameModifierMenu() {
 function DescriptionModifierMenu(){
     rootDiv.innerHTML = "";
     let newTitleStyle = "text-xl text-left"
-    let newInputStyle = "text-black md:w-[50vw] h-[120px] md:h-[40px] px-2"
+    let newInputStyle = "text-black md:w-[50vw] h-[120px] md:h-[15%] px-2 resize-none"
     let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
     let newDivStyle = "flex flex-col"
 
@@ -233,8 +326,6 @@ reader.onload: Cuando el archivo se ha leído completamente, la función de call
 function userImageModify(noImageSelected) {
     const userImageMod = document.getElementById("userImage");
     const inputFile = document.getElementById("inputImage").files[0]; // Obtiene el archivo seleccionado
-    const userImageContainer = document.getElementById("userImageContainer");
-    const noImage = document.getElementById("noImage");
 
     if (inputFile && noImageSelected == false) {
         const reader = new FileReader();
@@ -248,7 +339,10 @@ function userImageModify(noImageSelected) {
         userImageMod.src = ""
     } 
 }
+
 function imageModifierMenu() {
+
+
 
     rootDiv.innerHTML = `
     <div class="flex flex-col md:w-[50vw]">
@@ -258,23 +352,37 @@ function imageModifierMenu() {
             <button id="noImage" class="p-1 mt-2 bg-red-700 hover:bg-red-500 text-white rounded-sm cursor-pointer" onclick="userImageModify(true)">Sin imagen</button>
         </span>
         <button class="p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer" onclick="userImageModify(false)">Aplicar</button>
-        <div class="flex flex-row justify-evenly mt-1">
-            <label class="flex flex-row cursor-pointer">
-                <input type="radio" id="squareBorder" name="borderStyle" class="mr-1">
-                <p>Borde cuadrado</p>
-            </label>
-            <label class="flex flex-row cursor-pointer">
-                <input type="radio" checked id="roundedBorder" name="borderStyle" class="mr-1">
-                <p>Borde redondeado</p>
-            </label>
-            <label class="flex flex-row cursor-pointer">
-                <input type="radio" id="circularBorder" name="borderStyle" class="mr-1">
-
-                <p>Borde circular</p>
-            </label>
+        <div class="flex flex-col md:flex-row justify-between mt-1 w-[100%]">
+            <div class="flex flex-row justify-evenly items-center w-full text-sm md:text-base md:w-[80%]">
+                <label class="flex flex-row cursor-pointer justify-around mr-1">
+                    <input type="radio" id="squareBorder" name="borderStyle" class="mr-1">
+                    <p>Borde cuadrado</p>
+                </label>
+                <label class="flex md:flex-row cursor-pointer justify-evenl mr-1">
+                    <input type="radio" checked id="roundedBorder" name="borderStyle" class="mr-1">
+                    <p>Borde redondeado</p>
+                </label>
+                <label class="flex md:flex-row cursor-pointer justify-evenly mr-1">
+                    <input type="radio" id="circularBorder" name="borderStyle" class="mr-1">
+                    <p>Borde circular</p>
+                </label>
+            </div>
+            <div class="flex flex-row items-center">
+                <input type="range" id="imageSize" name="imageSize" min="75" max="150" value="120" onchange="resizeImage(this.value)">
+            </div>
         </div>
-    </div>
     `;
+    
+    let imageSizeValue = document.getElementById("imageSizeValue");
+    let imageSize = document.getElementById("imageSize");
+
+    imageSize.onchange = () => {
+        userImageMod.style.width = `${imageSize.value}px`;
+        userImageMod.style.height = `${imageSize.value}px`;
+    }
+
+    
+    
     let squareBorder = document.getElementById("squareBorder");
     let roundedBorder = document.getElementById("roundedBorder");
     let circularBorder = document.getElementById("circularBorder");
@@ -283,7 +391,7 @@ function imageModifierMenu() {
         userImageMod.style.borderRadius = "0";
     }
     roundedBorder.onclick = () => {
-        userImageMod.style.borderRadius = "12px";
+        userImageMod.style.borderRadius = "12px"; //to match the tailwindcss style
     }
     circularBorder.onclick = () => {
         userImageMod.style.borderRadius = "50%";
@@ -298,7 +406,7 @@ function studiesModifierMenu(studieID, periodID, courseID){
    rootDiv.innerHTML = "";  
 
    userStudiesMod = document.getElementById(studieID);
-   userStudiesYearMod = document.getElementById(periodID); //revisar no funciona
+   userStudiesYearMod = document.getElementById(periodID);
    userStudiesCourseMod = document.getElementById(courseID);
    let newDivStyle1 = document.createElement("div");
    let newDivStyle2 = document.createElement("div");
@@ -307,6 +415,8 @@ function studiesModifierMenu(studieID, periodID, courseID){
    let newTitleStyle = "text-xl text-left"
    let newInputStyle = "text-black w-[100%] h-[30px] px-2"
    let newButtonStyle = "w-[100%] pt-1 mt-2 mb-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer text-center"
+   newDivStyle1.classList = "w-[90%]"
+   newDivStyle2.classList = "w-[90%]"
 
     if (!document.getElementById("inputStudies")) {
         let titleSection = document.createElement("p");
@@ -419,11 +529,12 @@ function createNewSection() {
     
     // Crear la estructura HTML
     let sectionContainer = `
-     <br>
     <div class="flex flex-col items-center">
+        
         <div class="w-[80%]" id="${studieID}-S">
+        <br>
             <span class="flex flex-col md:flex-row justify-left md:justify-between">
-                <p class="text-xl md:text-2xl font-bold cursor-pointer hover:bg-slate-200 rounded-md" id="${studieID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">Nueva Sección (${globalIdentifier})</p>
+                <p class="text-xl md:text-2xl mb-0 font-bold cursor-pointer hover:bg-slate-200 rounded-md" id="${studieID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">Nueva Sección (${globalIdentifier})</p>
                 <span class="flex flex-row md:justify-evenly">
                     <p class="p-1 mt-2 hover:text-green-500 text-gray-200 rounded-sm cursor-pointer ocultar-al-imprimir" onclick="addNewPeriod(${studieID})">Añadir Período</p>
                     <p class="p-1 mt-2 hover:text-red-500 text-gray-200 rounded-sm cursor-pointer ocultar-al-imprimir" onclick="removeSection('${studieID}-S')">Eliminar Sección</p>
@@ -434,7 +545,7 @@ function createNewSection() {
                 <p class="text-sm md:text-base font-semibold cursor-pointer hover:bg-slate-200 rounded-md" id="${periodID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">Período (${globalIdentifier})</p>
                 <p class="text-sm md:text-base cursor-pointer hover:bg-slate-200 rounded-md" id="${courseID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">
                     Detalla claramente el contenido de la sección, incluye información relevante y usa palabras claves para comunicar tu mensaje.
-                </p>
+                </p>                
             </div>
         </div>
     `;
@@ -442,7 +553,8 @@ function createNewSection() {
     // Insertar la nueva sección en el DOM
     newSection.insertAdjacentHTML('beforeend', sectionContainer);
     studiesModifierMenu(studieID, periodID, courseID);
-    styleMenuModifier(true);            
+    styleMenuModifier(true);
+    menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
 }
 
 function newSectionTitle(currentIdentifier){
