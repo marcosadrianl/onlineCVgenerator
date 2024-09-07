@@ -362,6 +362,7 @@ function userImageModify(noImageSelected) {
     const userImageMod = document.getElementById("userImage");
     const inputFile = document.getElementById("inputImage").files[0]; // Obtiene el archivo seleccionado
     const noImage = document.getElementById("noImage");
+    const userImagePosition = document.getElementById("userTitleHeader");
 
     if (noImageSelected == false) { //si selecciona una imagen y quiere mostrarla
         const reader = new FileReader();
@@ -379,17 +380,21 @@ function userImageModify(noImageSelected) {
         noImage.style.backgroundColor = "green"
         userImageMod.alt = "Sin imagen"
         userImageMod.title = "Sin imagen"
+        userImagePosition.classList.remove("flex-row-reverse")
+        userImagePosition.classList.add("flex-row")
     } 
 }
 
 function imageModifierMenu() {
+    let imagePosition = document.getElementById("userTitleHeader");
 
     rootDiv.innerHTML = `
-    <div class="flex flex-col md:w-[50vw]">
+    <div class="flex flex-col w-full md:w-[50vw]">
         <p class="text-xl text-left">Editar imagen de perfil</p>
         <span class="flex flex-col md:flex-row justify-between w-[100%]">
             <input id="inputImage" type="file" accept="image/png, image/jpeg" class="mt-2 md:mt-0 ocultar-al-imprimir ">
-            <button id="noImage" class="px-1 mt-2 md:mt-0 bg-red-700 hover:bg-red-500 text-white rounded-sm cursor-pointer w-[100%] md:w-32" onclick="userImageModify(true)">Sin imagen</button>
+            <button id="imagePosition" class="px-1 mt-1 mx-0 md:mx-2 md:mt-0 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer w-[100%] md:w-32" onclick="userImagePositionModify()">Mover</button>
+            <button id="noImage" class="px-1 mt-1 md:mt-0 bg-red-700 hover:bg-red-500 text-white rounded-sm cursor-pointer w-[100%] md:w-32" onclick="userImageModify(true)">Sin imagen</button>
         </span>
         <div class="flex flex-col md:flex-row justify-between mt-1 w-[100%]">
             <div class="flex flex-row justify-evenly items-center w-full text-sm md:text-base md:w-[80%]">
@@ -421,8 +426,6 @@ function imageModifierMenu() {
         userImageMod.style.height = `${imageSize.value}px`;
     }
 
-    
-    
     let squareBorder = document.getElementById("squareBorder");
     let roundedBorder = document.getElementById("roundedBorder");
     let circularBorder = document.getElementById("circularBorder");
@@ -435,6 +438,19 @@ function imageModifierMenu() {
     }
     circularBorder.onclick = () => {
         userImageMod.style.borderRadius = "50%";
+    }
+}
+
+function userImagePositionModify(){
+    let imagePosition = document.getElementById("userTitleHeader");
+    let imageHasPermitionToBe = document.getElementById("userImage");
+    
+    if (imagePosition.classList.contains("flex-row") == true && !imageHasPermitionToBe.classList.contains("ocultar-al-imprimir")){
+        imagePosition.classList.remove("flex-row")
+        imagePosition.classList.add("flex-row-reverse")
+    } else {
+        imagePosition.classList.remove("flex-row-reverse")
+        imagePosition.classList.add("flex-row")
     }
 }
 
