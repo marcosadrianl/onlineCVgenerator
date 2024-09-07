@@ -1,21 +1,21 @@
 /*Todas las variables de estado. Las elegi global para ser facil de manipular */
-const menuMod = document.getElementById("menuFlotante");
-const closeMenuMod = document.getElementById("closeMenu")
-const rootDiv = document.getElementById("rootEditor");
-const menuDiv = document.getElementById("rootMenu");
-const userNameMod = document.getElementById("userName");
-const userDescriptionMod = document.getElementById("userDescription")
-const userLocaltionMod = document.getElementById("userLocation")
-const userContactMod = document.getElementById("userContact")
-const userImageMod = document.getElementById("userImage")
-let userStudiesMod;
-let userStudiesYearMod;
-let userStudiesCourseMod;
-const menu = document.getElementById('menuFlotante');
-const menu2 = document.getElementById('menuFlotanteVertical');
+const menuMod = document.getElementById("menuFlotante"); //div del contenedor del menu
+const closeMenuMod = document.getElementById("closeMenu") //boton para cerrar el menu
+const rootDiv = document.getElementById("rootEditor"); //div del contenedor del editor
+const menuDiv = document.getElementById("rootMenu"); //div del contenedor del menu
+const userNameMod = document.getElementById("userName"); //nombre del usuario
+const userDescriptionMod = document.getElementById("userDescription") //descripcion del usuario
+const userLocaltionMod = document.getElementById("userLocation") //ubicacion del usuario
+const userContactMod = document.getElementById("userContact") //contacto del usuario
+const userImageMod = document.getElementById("userImage") //imagen del usuario
+const menu = document.getElementById('menuFlotante'); //menu flotante horizontal
+const menu2 = document.getElementById('menuFlotanteVertical'); //menu flotante vertical
+let userSectionTitleMod; //userStudiesMod;
+let userLabelMod; //userStudiesYearMod;
+let userContentMod; //userStudiesCourseMod;
 
 /*callMenu llama a los distintos menues respectivos segun se le pasa el id de cada seccion */
-function callMenu(id, studieID, periodID, courseID) {
+function callMenu(id, titleID, labelID, contentID) { //(studieID, periodID, courseID)
 
     switch (id){
         case "userName":
@@ -48,11 +48,11 @@ function callMenu(id, studieID, periodID, courseID) {
             styleMenuModifier(false);
             imageModifierMenu();
             break;
-        case "Studies":
+        case "title":
             menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
             menu.classList.add('visible');
             styleMenuModifier(true);
-            studiesModifierMenu(studieID, periodID, courseID);
+            titlesModifierMenu(titleID, labelID, contentID);
             break;
         case "closeMenu":
             menu.classList.remove('visible');
@@ -65,10 +65,15 @@ function callMenu(id, studieID, periodID, courseID) {
             }
             exportMenu()
             break;
+        default:
+            menu.classList.contains('visible') ? menu.classList.remove('visible') : "";
+            menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
+            break;
     }
 }
 /*************************************************************************************************************************************************** */
 
+/*permite crear el menu flotante vertical y el horizontal, segun se lo indique el booleano doIt */
 function styleMenuModifier(doIt){
     if (doIt == true){
         menuMod.classList.remove("menu-flotante")
@@ -84,15 +89,44 @@ function styleMenuModifier(doIt){
 
 /*Funciones de menu exportacion*/
 function exportMenu(){
+    let bodyFont = document.getElementById("userMain");
     let newButtonStyle = "p-1 mt-2 w-[100%] bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
 
     menu.classList.contains('visible') ? menu.classList.remove('visible') : "";
 
     if (!document.getElementById("exportButton")){
+        let fontButton = document.createElement("button");
         let exportButton = document.createElement("button");
         let importButton = document.createElement("button");
         let printButton = document.createElement("button");
 
+        fontButton.innerText = `Fuente: Sans`
+        fontButton.id = "fontButton";
+        fontButton.classList = newButtonStyle;
+        fontButton.onclick = function(){
+            let fontsAvailable = ["Arial", "Helvetica", "Calibri", "Verdana", "Times New Roman", "Georgia"];
+            let copy = fontsAvailable.slice(0); // Copia de las fuentes disponibles
+        
+            return function() {
+                // Si ya no quedan más fuentes, reinicia la lista
+                if (copy.length < 1) {
+                    copy = fontsAvailable.slice(0);
+                }
+        
+                // Elige un índice aleatorio de la lista de fuentes disponibles
+                var index = Math.floor(Math.random() * copy.length);
+                var item = copy[index]; // Fuente seleccionada
+                bodyFont.style.fontFamily = item; // Cambia la fuente en el elemento
+        
+                // Actualiza el texto del botón
+                fontButton.innerText = `Fuente: ${item}`;
+        
+                // Elimina la fuente seleccionada de la copia para no repetir
+                copy.splice(index, 1);
+            }
+        }();
+        
+        
         importButton.innerText = "Importar CV";
         importButton.id = "importButton";
         importButton.classList = newButtonStyle;
@@ -111,6 +145,7 @@ function exportMenu(){
         printButton.classList = newButtonStyle;
         printButton.onclick = () => window.print();
         
+        menuDiv.appendChild(fontButton);
         menuDiv.appendChild(importButton);
         menuDiv.appendChild(exportButton);
         menuDiv.appendChild(printButton);
@@ -160,7 +195,7 @@ function NameModifierMenu() {
 
     rootDiv.innerHTML = "";
     let newTitleStyle = "text-xl text-left"
-    let newInputStyle = "text-black md:w-[50vw] h-[40px] px-2"
+    let newInputStyle = "text-black md:w-[50vw] h-[40px] px-2 rounded-sm"
     let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
     let newDivStyle = "flex flex-col"
     // Verificar si los elementos ya existen
@@ -201,7 +236,7 @@ function NameModifierMenu() {
 function DescriptionModifierMenu(){
     rootDiv.innerHTML = "";
     let newTitleStyle = "text-xl text-left"
-    let newInputStyle = "text-black md:w-[50vw] h-[120px] md:h-[15%] px-2 resize-none"
+    let newInputStyle = "text-black md:w-[50vw] h-[120px] px-2 resize-none rounded-sm"
     let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
     let newDivStyle = "flex flex-col"
 
@@ -242,7 +277,7 @@ function LocationModifierMenu() {
     
     rootDiv.innerHTML = "";
     let newTitleStyle = "text-xl text-left"
-    let newInputStyle = "text-black md:w-[50vw] h-[40px] px-2"
+    let newInputStyle = "text-black md:w-[50vw] h-[40px] px-2 rounded-sm"
     let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
     let newDivStyle = "flex flex-col"
     // Verificar si los elementos ya existen
@@ -280,7 +315,7 @@ function LocationModifierMenu() {
 function ContactModifierMenu() {
     rootDiv.innerHTML = "";
     let newTitleStyle = "text-xl text-left"
-    let newInputStyle = "text-black md:w-[50vw] h-[40px] px-2"
+    let newInputStyle = "text-black md:w-[50vw] h-[40px] px-2 rounded-sm"
     let newButtonStyle = "p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer"
     let newDivStyle = "flex flex-col"
 
@@ -291,7 +326,7 @@ function ContactModifierMenu() {
         let newButton = document.createElement("button");
         let newDiv = document.createElement("div");
 
-        newTitle.innerText = "Editar contacto";
+        newTitle.innerText = "Editar Contacto";
         newTitle.classList = newTitleStyle
 
         newInput.type = "text";
@@ -299,7 +334,7 @@ function ContactModifierMenu() {
         newInput.value = userContactMod.innerText
         newInput.placeholder = "Escribe como contactarte";
         newInput.maxLength = 80;
-        newInput.onclick = () => newInput.select()
+        newInput.onclick = () => newInput.select();
         newInput.classList = newInputStyle
 
         newButton.innerText = "Aplicar";
@@ -326,32 +361,36 @@ reader.onload: Cuando el archivo se ha leído completamente, la función de call
 function userImageModify(noImageSelected) {
     const userImageMod = document.getElementById("userImage");
     const inputFile = document.getElementById("inputImage").files[0]; // Obtiene el archivo seleccionado
+    const noImage = document.getElementById("noImage");
 
-    if (inputFile && noImageSelected == false) {
+    if (noImageSelected == false) { //si selecciona una imagen y quiere mostrarla
         const reader = new FileReader();
         reader.onload = function(e) {
             userImageMod.src = e.target.result; // Asigna la imagen seleccionada al src
         };
         reader.readAsDataURL(inputFile); // Lee el archivo seleccionado como una URL de datos
         userImageMod.classList.remove("ocultar-al-imprimir")
+        noImage.style.backgroundColor = "red"
+        userImageMod.alt = "Imagen de perfil"
+        userImageMod.title = "Imagen de perfil"
     }  else if (noImageSelected == true) {
         userImageMod.classList.add("ocultar-al-imprimir")
         userImageMod.src = ""
+        noImage.style.backgroundColor = "green"
+        userImageMod.alt = "Sin imagen"
+        userImageMod.title = "Sin imagen"
     } 
 }
 
 function imageModifierMenu() {
 
-
-
     rootDiv.innerHTML = `
     <div class="flex flex-col md:w-[50vw]">
         <p class="text-xl text-left">Editar imagen de perfil</p>
-        <span class="flex flex-col md:flex-row justify-between">
-            <input id="inputImage" type="file" accept="image/png, image/jpeg">
-            <button id="noImage" class="p-1 mt-2 bg-red-700 hover:bg-red-500 text-white rounded-sm cursor-pointer" onclick="userImageModify(true)">Sin imagen</button>
+        <span class="flex flex-col md:flex-row justify-between w-[100%]">
+            <input id="inputImage" type="file" accept="image/png, image/jpeg" class="mt-2 md:mt-0 ocultar-al-imprimir ">
+            <button id="noImage" class="px-1 mt-2 md:mt-0 bg-red-700 hover:bg-red-500 text-white rounded-sm cursor-pointer w-[100%] md:w-32" onclick="userImageModify(true)">Sin imagen</button>
         </span>
-        <button class="p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer" onclick="userImageModify(false)">Aplicar</button>
         <div class="flex flex-col md:flex-row justify-between mt-1 w-[100%]">
             <div class="flex flex-row justify-evenly items-center w-full text-sm md:text-base md:w-[80%]">
                 <label class="flex flex-row cursor-pointer justify-around mr-1">
@@ -371,9 +410,10 @@ function imageModifierMenu() {
                 <input type="range" id="imageSize" name="imageSize" min="75" max="150" value="120" onchange="resizeImage(this.value)">
             </div>
         </div>
+        <button class="p-1 mt-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer" onclick="userImageModify(false)">Aplicar</button>
+    </div>
     `;
     
-    let imageSizeValue = document.getElementById("imageSizeValue");
     let imageSize = document.getElementById("imageSize");
 
     imageSize.onchange = () => {
@@ -401,19 +441,19 @@ function imageModifierMenu() {
 
 /*Funciones de seccion, son mas complejas, trabajar con cuidado, cada una renderiza su propio cuerpo y permite aniadir mismas secciones */
 
-function studiesModifierMenu(studieID, periodID, courseID){
+function titlesModifierMenu(titleID, labelID, contentID){
    //modal de modificacion de seccion
    rootDiv.innerHTML = "";  
 
-   userStudiesMod = document.getElementById(studieID);
-   userStudiesYearMod = document.getElementById(periodID);
-   userStudiesCourseMod = document.getElementById(courseID);
+   userSectionTitleMod = document.getElementById(titleID);
+   userLabelMod = document.getElementById(labelID);
+   userContentMod = document.getElementById(contentID);
    let newDivStyle1 = document.createElement("div");
    let newDivStyle2 = document.createElement("div");
 
    //StyleSection var
    let newTitleStyle = "text-xl text-left"
-   let newInputStyle = "text-black w-[100%] h-[30px] px-2"
+   let newInputStyle = "text-black w-[100%] h-[30px] px-2 rounded-sm"
    let newButtonStyle = "w-[100%] pt-1 mt-2 mb-2 bg-gray-500 hover:bg-gray-700 text-white rounded-sm cursor-pointer text-center"
    newDivStyle1.classList = "w-[90%]"
    newDivStyle2.classList = "w-[90%]"
@@ -424,19 +464,19 @@ function studiesModifierMenu(studieID, periodID, courseID){
         let titleButton = document.createElement("button");
         let divStudies = document.createElement("div");
 
-        titleSection.innerText = `${userStudiesMod.innerText}`;
+        titleSection.innerText = "Editar Titulo";
         titleSection.classList = newTitleStyle
 
         titleInput.type = "text";
-        titleInput.id = studieID;
+        titleInput.id = titleID;
         titleInput.placeholder = "Nombre del titulo";
         titleInput.maxLength = 80;
         titleInput.onclick = () => titleInput.select()
-        titleInput.value = userStudiesMod.innerText;
+        titleInput.value = userSectionTitleMod.innerText;
         titleInput.classList = newInputStyle     
         titleButton.innerText = "Aplicar";
         titleButton.onclick = () => {
-            userStudiesMod.innerText = titleInput.value;
+            userSectionTitleMod.innerText = titleInput.value;
         }
         titleButton.classList = newButtonStyle
 
@@ -453,20 +493,20 @@ function studiesModifierMenu(studieID, periodID, courseID){
         let titlePeriodButton = document.createElement("button");
         let divPeriod = document.createElement("div");
 
-        titlePeriod.innerText = "Editar Periodo";
+        titlePeriod.innerText = "Editar Etiqueta";
         titlePeriod.classList = newTitleStyle
         
         titlePeriodInput.type = "text";
-        titlePeriodInput.id = periodID;
-        titlePeriodInput.value = userStudiesYearMod.innerText
-        titlePeriodInput.placeholder = "Escribe el periodo";
+        titlePeriodInput.id = labelID;
+        titlePeriodInput.value = userLabelMod.innerText
+        titlePeriodInput.placeholder = "Escribe el nombre de etiqueta";
         titlePeriodInput.maxLength = 80;
         titlePeriodInput.onclick = () => titlePeriodInput.select()
         titlePeriodInput.classList = newInputStyle
 
         titlePeriodButton.innerText = "Aplicar";
         titlePeriodButton.onclick = () => {
-            userStudiesYearMod.innerText = titlePeriodInput.value;
+            userLabelMod.innerText = titlePeriodInput.value;
         }
         titlePeriodButton.classList = newButtonStyle
 
@@ -483,12 +523,12 @@ function studiesModifierMenu(studieID, periodID, courseID){
         let titleCourseButton = document.createElement("button");
         let divCourse = document.createElement("div");
 
-        titleCourse.innerText = "Editar Curso";
+        titleCourse.innerText = "Editar Contenido";
         titleCourse.classList = newTitleStyle
 
         //titleCourseInput.type = "text";
-        titleCourseInput.id = courseID;
-        titleCourseInput.value = userStudiesCourseMod.innerText
+        titleCourseInput.id = contentID;
+        titleCourseInput.value = userContentMod.innerText
         titleCourseInput.placeholder = "Describe el contenido";
         titleCourseInput.maxLength = 400;
         titleCourseInput.style = "resize: none; height: 200px;"
@@ -497,13 +537,21 @@ function studiesModifierMenu(studieID, periodID, courseID){
 
         titleCourseButton.innerText = "Aplicar";
         titleCourseButton.onclick = () => {
-            userStudiesCourseMod.innerText = titleCourseInput.value;
+            userContentMod.innerText = titleCourseInput.value;
         }
         titleCourseButton.classList = newButtonStyle
 
         // Añadir elementos al div solo si no existen
         divCourse.appendChild(titleCourse);
         divCourse.appendChild(titleCourseInput);
+
+        //incorporar un editor de texto con TinyMCE
+        /* tinymce.init({
+            selector: `#${contentID}`,
+            plugins: '',
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image'
+        }); */
+
         divCourse.appendChild(titleCourseButton);
         newDivStyle2.appendChild(divCourse);
         rootDiv.appendChild(newDivStyle2);
@@ -519,32 +567,30 @@ function createNewSection() {
     let uniqueId = Date.now();
     
     // Identificadores únicos para la sección y sus elementos
-    let studieID = uniqueId;
-    let periodID = uniqueId + 1;
-    let courseID = uniqueId + 2;
-    let newSectionID = uniqueId + 3;
+    let titleID = uniqueId;
+    let labelID = uniqueId + 1;
+    let contentID = uniqueId + 2;
 
     // Incrementar el identificador global y pasarlo a la función newSectionTitle
     globalIdentifier = newSectionTitle(globalIdentifier);
     
     // Crear la estructura HTML
     let sectionContainer = `
-    <div class="flex flex-col items-center">
-        
-        <div class="w-[80%]" id="${studieID}-S">
+        <div class="flex flex-col items-center">
+        <div class="w-[80%]" id="${titleID}-S">
         <br>
             <span class="flex flex-col md:flex-row justify-left md:justify-between">
-                <p class="text-xl md:text-2xl mb-0 font-bold cursor-pointer hover:bg-slate-200 rounded-md" id="${studieID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">Nueva Sección (${globalIdentifier})</p>
+                <p class="text-xl md:text-2xl mb-0 font-bold cursor-pointer hover:bg-slate-200 rounded-md" id="${titleID}" onclick="callMenu('title', ${titleID}, ${labelID}, ${contentID})">Nueva Sección (${globalIdentifier})</p>
                 <span class="flex flex-row md:justify-evenly">
-                    <p class="p-1 mt-2 hover:text-green-500 text-gray-200 rounded-sm cursor-pointer ocultar-al-imprimir" onclick="addNewPeriod(${studieID})">Añadir Período</p>
-                    <p class="p-1 mt-2 hover:text-red-500 text-gray-200 rounded-sm cursor-pointer ocultar-al-imprimir" onclick="removeSection('${studieID}-S')">Eliminar Sección</p>
+                    <p class="p-1 mt-2 hover:text-green-500 text-gray-200 rounded-sm cursor-pointer ocultar-al-imprimir" onclick="addNewPeriod(${titleID})">Añadir Etiqueta</p>
+                    <p class="p-1 mt-2 hover:text-red-500 text-gray-200 rounded-sm cursor-pointer ocultar-al-imprimir" onclick="removeSection('${titleID}-S')">Eliminar Sección</p>
                 </span>
             </span>
             <hr>
             <div class="flex flex-col" id="userStudiesContainer">
-                <p class="text-sm md:text-base font-semibold cursor-pointer hover:bg-slate-200 rounded-md" id="${periodID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">Período (${globalIdentifier})</p>
-                <p class="text-sm md:text-base cursor-pointer hover:bg-slate-200 rounded-md" id="${courseID}" onclick="callMenu('Studies', ${studieID}, ${periodID}, ${courseID})">
-                    Detalla claramente el contenido de la sección, incluye información relevante y usa palabras claves para comunicar tu mensaje.
+                <p class="text-sm md:text-base font-semibold cursor-pointer hover:bg-slate-200 rounded-md" id="${labelID}" onclick="callMenu('title', ${titleID}, ${labelID}, ${contentID})">Etiqueta (${globalIdentifier})</p>
+                <p class="text-sm md:text-base cursor-pointer hover:bg-slate-200 rounded-md" id="${contentID}" onclick="callMenu('title', ${titleID}, ${labelID}, ${contentID})">
+                    Detalla claramente el contenido de la sección, incluye información relevante y usa palabras claves para comunicar tu mensaje. "Etiqueta" puede ser un titulo, un periodo, un año, etc.
                 </p>                
             </div>
         </div>
@@ -552,8 +598,8 @@ function createNewSection() {
 
     // Insertar la nueva sección en el DOM
     newSection.insertAdjacentHTML('beforeend', sectionContainer);
-    studiesModifierMenu(studieID, periodID, courseID);
-    styleMenuModifier(true);
+    //studiesModifierMenu(titleID, labelID, contentID);
+    //styleMenuModifier(true);
     menu2.classList.contains('visible') ? menu2.classList.remove('visible') : "";
 }
 
@@ -564,24 +610,24 @@ function newSectionTitle(currentIdentifier){
 }
 
 //nueva subSeccion dentro de una Seccion mayor
-function addNewPeriod(studieID, periodID) {
+function addNewPeriod(titleID) {
     // Generar un nuevo ID para el nuevo periodo y curso
-    let newPeriodID = Date.now();
-    let newCourseID = newPeriodID + 1;
-    
+    let newLabelID = Date.now();
+    let newContentID = newLabelID + 1;
+
     // Incrementar el identificador global para el nuevo periodo
     globalIdentifier = newSectionTitle(globalIdentifier);
     
     // Crear el nuevo periodo y curso
-    let newPeriodHTML = `
-        <p class="text-sm md:text-base font-semibold cursor-pointer hover:bg-slate-200 rounded-md" id="${newPeriodID}" onclick="callMenu('Studies', ${studieID}, ${newPeriodID}, ${newCourseID})">Nuevo Período (${globalIdentifier})</p>
-        <p class="text-sm md:text-base cursor-pointer hover:bg-slate-200 rounded-md" id="${newCourseID}" onclick="callMenu('Studies', ${studieID}, ${newPeriodID}, ${newCourseID})">
-            Aquí puedes describir el nuevo período en detalle, añadiendo toda la información relevante.
+    let newLabelHTML = `
+        <p class="text-sm md:text-base font-semibold cursor-pointer hover:bg-slate-200 rounded-md" id="${newLabelID}" onclick="callMenu('title', ${titleID}, ${newLabelID}, ${newContentID})">Nueva Etiqueta (${globalIdentifier})</p>
+        <p class="text-sm md:text-base cursor-pointer hover:bg-slate-200 rounded-md" id="${newContentID}" onclick="callMenu('title', ${titleID}, ${newLabelID}, ${newContentID})">
+            Aquí puedes describir la nueva etiqueta en detalle, añadiendo toda la información relevante.
         </p>
     `;
     
     // Insertar el nuevo periodo en el contenedor correspondiente
-    document.getElementById(studieID + "-S").querySelector("#userStudiesContainer").insertAdjacentHTML('beforeend', newPeriodHTML);
+    document.getElementById(titleID + "-S").querySelector("#userStudiesContainer").insertAdjacentHTML('beforeend', newLabelHTML);
 }
 
 function removeSection(sectionCalled){
